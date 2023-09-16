@@ -9,15 +9,12 @@ def browser():
     yield driver
     driver.quit()
 
-def test_search_for_flights(browser):
+def test_search_for_flights(browser, source_city_input, departure_date_input):
     browser.get("https://www.booking.com")
     source_city = browser.find_element_by_name("ss")
     destination_city = browser.find_element_by_name("ss")
     departure_date = browser.find_element_by_css_selector(".xp__input-group .--checkin-field")
     search_button = browser.find_element_by_css_selector(".sb-searchbox__button")
-    source_city_input = "New York"
-    destination_option_index = 1 
-    departure_date_input = "2023-09-20"
     source_city.send_keys(source_city_input)
     destination_city.send_keys(Keys.DOWN)
     destination_city.send_keys(Keys.ENTER)
@@ -27,3 +24,5 @@ def test_search_for_flights(browser):
     
     time.sleep(5)
     assert "Search Results" in browser.page_source
+if __name__ == "__main__":
+    pytest.main(["-v", __file__, "--browser=chrome", "--source_city_input=New York", "--departure_date_input=2023-09-20"])
